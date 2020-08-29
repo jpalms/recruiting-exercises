@@ -36,14 +36,12 @@ public class Allocator {
             }
         }
 
-
-        storage = storage.substring(4);
-
         ArrayList<Warehouse> warehouse = new ArrayList<>();
-        while(storage.length() > 3){
+        while(storage.contains("name:")) {
+            storage = storage.substring(storage.indexOf("name:"));
             warehouse.add(buildWharehouse(storage));
 
-            storage = storage.substring(storage.indexOf('}') + 4);
+            storage = storage.substring(storage.indexOf("name:") + 1);
         }
 
         Shipping shipping = new Shipping();
