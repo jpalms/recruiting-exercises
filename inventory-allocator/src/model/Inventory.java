@@ -1,24 +1,23 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Inventory {
-    private ArrayList<Product> storage;
+    private HashMap<String, Integer> products;
 
-    public Inventory(ArrayList<Product> storage){
-        this.storage = storage;
+    public Inventory(HashMap<String, Integer> products){
+        this.products = products;
     }
 
     @Override
     public String toString(){
-        String products = "";
+        String result = "";
 
-        for (int i = 0; i < storage.size(); i++) {
-            products += storage.get(i).toString();
-            if(i != storage.size() - 1){
-                products += ", ";
-            }
+        for (String p: products.keySet()) {
+            result += p + ": " + products.get(p);
+            result += ", ";
         }
-        return "inventory: { " + products + " }";
+        return "inventory: { " + result + " }";
     }
 }
