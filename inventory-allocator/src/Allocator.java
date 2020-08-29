@@ -21,8 +21,12 @@ public class Allocator {
         while(map.contains(":")){
             int colon = map.indexOf(':');
             String name = map.substring(0, colon);
-            int amount = Integer.parseInt(map.substring(colon + 2, colon + 3));
-
+            map = map.substring(colon + 2);
+            int endNum = map.indexOf(',');
+            if(endNum < 0){
+                endNum = map.indexOf(' ');
+            }
+            int amount = Integer.parseInt(map.substring(0, endNum));
             find.put(name, amount);
 
             if(map.contains(",")) {
@@ -124,7 +128,12 @@ public class Allocator {
         while(storage.contains(":")){
             int colon = storage.indexOf(':');
             String food = storage.substring(0, colon);
-            int amount = Integer.parseInt(storage.substring(colon + 2, colon + 3));
+            storage = storage.substring(colon + 2);
+            int endNum = storage.indexOf(',');
+            if(endNum < 0){
+                endNum = storage.indexOf(' ');
+            }
+            int amount = Integer.parseInt(storage.substring(0, endNum));
 
             items.put(food, amount);
 
