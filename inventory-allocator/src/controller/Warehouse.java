@@ -36,10 +36,11 @@ public class Warehouse {
         return this.inv.getAmount(product);
     }
 
-    public void shipped(String product, int amount){
+    public Warehouse shipped(String product, int amount){
         HashMap<String, Integer> pd = this.inv.getProducts();
         pd.replace(product, amount);
         this.inv = new Inventory(pd);
+        return this;
     }
 
     @Override

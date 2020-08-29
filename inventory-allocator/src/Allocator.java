@@ -48,8 +48,9 @@ public class Allocator {
 
         Shipping shipping = new Shipping();
 
+        boolean exists = false;
         for (String product: find.keySet()) {
-            boolean exists = false;
+            exists = false;
             Warehouse exact = null;
             ArrayList<Integer> matches = new ArrayList<>();
 
@@ -60,12 +61,12 @@ public class Allocator {
                 if(w.hasProduct(product)){
                     exists = true;
 
+                    matches.add(i);
+
                     if(w.exactMatch(product, find.get(product))){
                         exact = w;
                         break;
                     }
-
-                    matches.add(i);
                     sum += w.getAmount(product);
                 }
             }
@@ -78,6 +79,8 @@ public class Allocator {
 
             if(exact != null){
                 shipping.update(exact.getName(), tmp);
+                int index = matches.get(matches.size()-1);
+                warehouse.set(index, warehouse.get(index).shipped(product, 0));
             } else{
                 tmp = new HashMap<>();
 
@@ -98,19 +101,19 @@ public class Allocator {
                     if(stored > quota){
                         tmp.put(product, quota);
                         shipping.update(w.getName(), tmp);
-                        w.shipped(product, quota);
+                        warehouse.set(index, w.shipped(product, stored - quota));
                         break;
                     } else{
                         quota -= stored;
                         tmp.put(product, stored);
                         shipping.update(w.getName(), tmp);
-                        w.shipped(product, stored);
+                        warehouse.set(index, w.shipped(product, 0));
                     }
                 }
             }
         }
 
-        if(find.isEmpty()){
+        if(exists){
             System.out.println(shipping.toString());
         } else{
             System.out.println("[]");
