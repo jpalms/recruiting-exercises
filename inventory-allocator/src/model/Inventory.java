@@ -18,6 +18,10 @@ public class Inventory {
             result += p + ": " + products.get(p);
             result += ", ";
         }
+
+        // remove extra comma
+        result = result.substring(0, result.length()-2);
+
         return "inventory: { " + result + " }";
     }
 }
