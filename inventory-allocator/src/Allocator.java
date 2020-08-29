@@ -1,3 +1,4 @@
+import controller.Shipping;
 import controller.Warehouse;
 import model.Inventory;
 
@@ -31,7 +32,6 @@ public class Allocator {
             }
         }
 
-        System.out.println(find.toString());
 
         storage = storage.substring(4);
 
@@ -42,7 +42,75 @@ public class Allocator {
             storage = storage.substring(storage.indexOf('}') + 4);
         }
 
-        System.out.println(warehouse.toString());
+        Shipping shipping = new Shipping();
+
+        for (String product: find.keySet()) {
+            boolean exists = false;
+            Warehouse exact = null;
+            ArrayList<Integer> matches = new ArrayList<>();
+
+            int sum = 0;
+
+            for (int i = 0; i < warehouse.size(); i++){
+                Warehouse w = warehouse.get(i);
+                if(w.hasProduct(product)){
+                    exists = true;
+
+                    if(w.exactMatch(product, find.get(product))){
+                        exact = w;
+                        break;
+                    }
+
+                    matches.add(i);
+                    sum += w.getAmount(product);
+                }
+            }
+
+            if(!exists){
+                break;
+            }
+            HashMap<String, Integer> tmp = new HashMap<>();
+            tmp.put(product, find.get(product));
+
+            if(exact != null){
+                shipping.update(exact.getName(), tmp);
+            } else{
+                tmp = new HashMap<>();
+
+                if(sum < find.get(product)){
+                    exists = false;
+                    break;
+                }
+
+                int quota = find.get(product);
+
+                // split accross multiple warehouses
+                for (int i = 0; i < matches.size(); i++) {
+                    int index = matches.get(i);
+                    Warehouse w = warehouse.get(index);
+
+                    int stored = w.getAmount(product);
+
+                    if(stored > quota){
+                        tmp.put(product, quota);
+                        shipping.update(w.getName(), tmp);
+                        w.shipped(product, quota);
+                        break;
+                    } else{
+                        quota -= stored;
+                        tmp.put(product, stored);
+                        shipping.update(w.getName(), tmp);
+                        w.shipped(product, stored);
+                    }
+                }
+            }
+        }
+
+        if(find.isEmpty()){
+            System.out.println(shipping.toString());
+        } else{
+            System.out.println("[]");
+        }
     }
 
     public static Warehouse buildWharehouse(String storage){

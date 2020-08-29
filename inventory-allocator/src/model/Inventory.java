@@ -1,6 +1,5 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Inventory {
@@ -8,6 +7,22 @@ public class Inventory {
 
     public Inventory(HashMap<String, Integer> products){
         this.products = products;
+    }
+
+    public HashMap<String, Integer> getProducts() {
+        return products;
+    }
+
+    public boolean hasProduct(String name){
+        return this.products.containsKey(name);
+    }
+
+    public boolean exactMatch(String product, int amount){
+        return this.products.containsKey(product) && this.products.get(product) == amount;
+    }
+
+    public int getAmount(String product){
+        return this.products.get(product);
     }
 
     @Override
