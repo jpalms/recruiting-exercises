@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class Allocator {
 
     /**
-     * Description: Takes in list of items to ship and warehouse information and outputs the Shipping order
+     * Description: Reads in input
      *
      * @param args - to lines of input
      */
@@ -20,6 +20,17 @@ public class Allocator {
         String map = input.nextLine();
         String storage = input.nextLine();
 
+        System.out.println(run(map, storage));
+
+    }
+
+    /**
+     * Description: Parses input into datastructures
+     *
+     * @param map - items to ship
+     * @param storage - warehouses containing inventory
+     */
+    public static String run(String map, String storage){
         // start input at first item
         map = map.substring(map.indexOf(' ') + 1);
 
@@ -36,7 +47,7 @@ public class Allocator {
             storage = storage.substring(storage.indexOf("name:") + 1);
         }
 
-        printOrder(find, warehouse);
+        return printOrder(find, warehouse);
     }
 
     /**
@@ -45,7 +56,7 @@ public class Allocator {
      * @param find - items to ship
      * @param warehouse - warehouses to ship from
      */
-    private static void printOrder(HashMap<String, Integer> find, ArrayList<Warehouse> warehouse){
+    private static String printOrder(HashMap<String, Integer> find, ArrayList<Warehouse> warehouse){
         Shipping shipping = new Shipping();
         // used to determine if an order is possible
         boolean exists = false;
@@ -127,9 +138,9 @@ public class Allocator {
         // if there is a solution print the results
         // otherwise print blank
         if(exists){
-            System.out.println(shipping.toString());
+            return shipping.toString();
         } else{
-            System.out.println("[]");
+            return "[]";
         }
 
     }

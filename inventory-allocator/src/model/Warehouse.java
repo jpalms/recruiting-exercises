@@ -86,6 +86,6 @@ public class Warehouse {
      */
     @Override
     public String toString(){
-        return "{ " + name + " " + inv.toString() + " }";
+        return "{ " + name + inv.toString() + " }";
     }
 }
