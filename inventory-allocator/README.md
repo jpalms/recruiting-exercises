@@ -47,15 +47,8 @@ Output: `[]`
 Input: `{ apple: 2 }, [{ name: owd, inventory: { apple: 1 } }]`  
 Output: `[]`
 
-## FAQs
-**If an order can be completely shipped from one warehouse or shipped from multiple warehouses, which option is cheaper?**
-  We can assume that shipping out of one warehouse is cheaper than shipping from multiple warehouses.
+## How to Run
 
-## What are we looking for
-
-We'll evaluate your code via the following guidelines in no particular order:
-
-1. **Readability**: naming, spacing, consistency
-2. **Correctness**: is the solution correct and does it solve the problem
-1. **Test Code Quality**: Is the test code comperehensive and covering all cases.
-1. **Tool/Language mastery**: is the code using up to date syntax and techniques. 
+Allocator.java doesn't need any armugemts. At the start the program expects
+two lines of input. The format of the input is described in the Problem section.
+The TestAllocator doesn't require any input and just output test cases and their results.
