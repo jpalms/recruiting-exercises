@@ -16,25 +16,7 @@ public class Allocator {
 
         map = map.substring(2);
 
-        HashMap<String, Integer> find = new HashMap<String, Integer>();
-
-        while(map.contains(":")){
-            int colon = map.indexOf(':');
-            String name = map.substring(0, colon);
-            map = map.substring(colon + 2);
-            int endNum = map.indexOf(',');
-            if(endNum < 0){
-                endNum = map.indexOf(' ');
-            }
-            int amount = Integer.parseInt(map.substring(0, endNum));
-            find.put(name, amount);
-
-            if(map.contains(",")) {
-                map = map.substring(map.indexOf(',') + 2);
-            } else{
-                map = "";
-            }
-        }
+        HashMap<String, Integer> find = parseInventory(map);
 
         ArrayList<Warehouse> warehouse = new ArrayList<>();
         while(storage.contains("name:")) {
@@ -111,6 +93,8 @@ public class Allocator {
             }
         }
 
+        // if there is a solution print the results
+        // otherwise print blank
         if(exists){
             System.out.println(shipping.toString());
         } else{
@@ -123,6 +107,13 @@ public class Allocator {
         String name = storage.substring(index + 2, storage.indexOf(","));
 
         storage = storage.substring(storage.indexOf("inventory:") + 13, storage.indexOf("}"));
+
+        HashMap<String, Integer> items = parseInventory(storage);
+
+        return new Warehouse(name, new Inventory(items));
+    }
+
+    private static HashMap<String, Integer> parseInventory(String storage){
 
         HashMap<String, Integer> items = new HashMap<String, Integer>();
 
@@ -145,6 +136,6 @@ public class Allocator {
             }
         }
 
-        return new Warehouse(name, new Inventory(items));
+        return items;
     }
 }
