@@ -1,5 +1,5 @@
 import controller.Shipping;
-import controller.Warehouse;
+import model.Warehouse;
 import model.Inventory;
 
 import java.util.ArrayList;

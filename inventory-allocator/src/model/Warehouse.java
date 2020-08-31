@@ -1,6 +1,4 @@
-package controller;
-
-import model.Inventory;
+package model;
 
 import java.util.HashMap;
 

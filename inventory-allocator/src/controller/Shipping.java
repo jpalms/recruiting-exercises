@@ -1,6 +1,7 @@
 package controller;
 
 import model.Inventory;
+import model.Warehouse;
 
 import java.util.ArrayList;
 import java.util.HashMap;
