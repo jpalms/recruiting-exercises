@@ -36,8 +36,17 @@ public class Allocator {
             storage = storage.substring(storage.indexOf("name:") + 1);
         }
 
-        Shipping shipping = new Shipping();
+        printOrder(find, warehouse);
+    }
 
+    /**
+     * Description: Print a Shipping order
+     *
+     * @param find - items to ship
+     * @param warehouse - warehouses to ship from
+     */
+    private static void printOrder(HashMap<String, Integer> find, ArrayList<Warehouse> warehouse){
+        Shipping shipping = new Shipping();
         // used to determine if an order is possible
         boolean exists = false;
         for (String product: find.keySet()) {
@@ -122,6 +131,7 @@ public class Allocator {
         } else{
             System.out.println("[]");
         }
+
     }
 
     /**
