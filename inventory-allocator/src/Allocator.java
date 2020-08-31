@@ -56,7 +56,7 @@ public class Allocator {
                     matches.add(i);
 
                     // gets first exact match, which should be the cheapest
-                    if(w.exactMatch(product, find.get(product))){
+                    if(w.canShipFromOne(product, find.get(product))){
                         exact = w;
                         break;
                     }
@@ -71,13 +71,17 @@ public class Allocator {
             HashMap<String, Integer> tmp = new HashMap<>();
             tmp.put(product, find.get(product));
 
+            int quota = find.get(product);
+
             // if an exact match has been found
             // otherwise look for a multiple warehouse order
             if(exact != null){
                 // adds match to shipping order and updates warehouse storage
                 shipping.update(exact.getName(), tmp);
                 int index = matches.get(matches.size()-1);
-                warehouse.set(index, warehouse.get(index).shipped(product, 0));
+
+                Warehouse w = warehouse.get(index);
+                warehouse.set(index, w.shipped(product, w.getAmount(product) - quota));
             } else{
                 tmp = new HashMap<>();
 
@@ -86,8 +90,6 @@ public class Allocator {
                     exists = false;
                     break;
                 }
-
-                int quota = find.get(product);
 
                 // split accross multiple warehouses
                 for (int i = 0; i < matches.size(); i++) {
